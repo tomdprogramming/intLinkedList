@@ -11,10 +11,20 @@ intLinkedList::intLinkedList()
 
 intLinkedList::~intLinkedList()
 {
-    free(this->Head);
+    if(this->Head != NULL) //list has at least one item
+    {
+        this->Current = this->Head;//set Current pointer to the head of the list
+        while(this->Current!=NULL)//step through each item, pointing the head to the next item, and freeing the current item
+        {
+            this->Head = Current->GetNext();
+            free(Current);
+            this->Current = this->Head;
+        }
+        //at this point, both Head and Current should both be NULL
+    }
 }
 
-void intLinkedList::AddNode(int NewData)
+void intLinkedList::AddToTail(int NewData)
 {
     if(this->Head == NULL) //list is empty
     {
@@ -23,7 +33,7 @@ void intLinkedList::AddNode(int NewData)
         NewNode->SetData(NewData);
         NewNode->SetNext(NULL);
     }
-    else
+    else //list has at least one item
     {
         Node* NewNode = (Node*)malloc(sizeof(Node));
         NewNode->SetData(NewData);
@@ -35,6 +45,27 @@ void intLinkedList::AddNode(int NewData)
         }
         Current->SetNext(NewNode);
     }
+}
+
+void intLinkedList::RemoveHead(void)
+{
+    Node* TempHead = this->Head;
+    Head = Head->GetNext();
+    free(TempHead);
+}
+
+void intLinkedList::RemoveTail(void)
+{
+    Node* Previous;
+    this->Current = this->Head;
+    
+    while(this->Current->GetNext()!=NULL)
+    {
+        Previous = this->Current;
+        this->Current = this->Current->GetNext();
+    }//at the end of this while loop, Current should be pointed to the last item, and previous should be pointed to the penultimate item
+    free(this->Current); //free the last item
+    Previous->SetNext(NULL); //the formerly penultimate item is now the last item, so it has it's 'Next' member set to NULL
 }
 
 void intLinkedList::PrintList(void)

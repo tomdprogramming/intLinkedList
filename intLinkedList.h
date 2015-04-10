@@ -1,5 +1,6 @@
 #ifndef INTLINKEDLIST_H
 #define INTLINKEDLIST_H
+
 class Node
 {
     private:
@@ -31,7 +32,9 @@ class intLinkedList
     Node* GetCurrent(void){return this->Current;}
     void SetCurrent(Node* New){this->Current = New;}
     
-    void AddNode(int Data);
+    void AddToTail(int Data);
+    void RemoveTail(void);
+    void RemoveHead(void);
     
     void PrintList(void);
 };
