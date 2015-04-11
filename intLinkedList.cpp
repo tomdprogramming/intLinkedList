@@ -38,12 +38,12 @@ void intLinkedList::AddToTail(int NewData)
         Node* NewNode = (Node*)malloc(sizeof(Node));
         NewNode->SetData(NewData);
         NewNode->SetNext(NULL);
-        this->Current = this->Head;
-        while(Current->GetNext()!=NULL)
+        Node* TempPntr = this->Head;
+        while(TempPntr->GetNext()!=NULL)
         {
-            Current = Current->GetNext();
+            TempPntr = TempPntr->GetNext();
         }
-        Current->SetNext(NewNode);
+        TempPntr->SetNext(NewNode);
     }
 }
 
@@ -56,25 +56,25 @@ void intLinkedList::RemoveHead(void)
 
 void intLinkedList::RemoveTail(void)
 {
-    Node* Previous;
-    this->Current = this->Head;
+    Node* NewTail;
+    Node* PrevTail = this->Head;
     
-    while(this->Current->GetNext()!=NULL)
+    while(PrevTail->GetNext()!=NULL)
     {
-        Previous = this->Current;
-        this->Current = this->Current->GetNext();
-    }//at the end of this while loop, Current should be pointed to the last item, and previous should be pointed to the penultimate item
-    free(this->Current); //free the last item
-    Previous->SetNext(NULL); //the formerly penultimate item is now the last item, so it has it's 'Next' member set to NULL
+        NewTail = PrevTail;
+        PrevTail = PrevTail->GetNext();
+    }//at the end of this while loop, PrevTail should be pointed to the last item, and NewTail should be pointed to the penultimate item
+    free(PrevTail); //free the last item
+    NewTail->SetNext(NULL); //the formerly penultimate item is now the last item, so it has it's 'Next' member set to NULL
 }
 
 void intLinkedList::PrintList(void)
 {
     printf("\n");
-    this->Current = this->Head;
-    while(Current != NULL)
+    Node* TempPntr = this->Head;
+    while(TempPntr != NULL)
     {
-        printf("%d\n",Current->GetData());
-        this->Current = this->Current->GetNext();
+        printf("%d\n",TempPntr->GetData());
+        TempPntr = TempPntr->GetNext();
     }
 }
